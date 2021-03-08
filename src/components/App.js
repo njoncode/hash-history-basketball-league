@@ -34,12 +34,9 @@ export default App;
    
    We can have a route without a path. But if we have a route without a path prop, that route is always gonna match. 
    But because we have stuck it in a switch, this route  (<Route render={() => <h1>404</h1>}/>)  will only ever match if neither of these three match before it. 
-
       <Route path='/' exact component={Home}/>
       <Route path='/players' component={Players}/>
       <Route path='/teams' component={Teams}/>
-
       If we are not at '/' , /players' or  /teams' , then that means this route  ( <Route render={() => <h1>404</h1>}/>)  is gonna match because it doesn't have a path prop.
       It's then gonna invoke the render method, which is gonna give us this UI which just says 404.
-
   */

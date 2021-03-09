@@ -4,6 +4,7 @@ import Home from './Home'
 import Players from './Players'
 import Teams from './Teams'
 import Navbar from './Navbar'
+import TeamPage from './TeamPage'
 
 function App() {
   return (
@@ -15,12 +16,13 @@ function App() {
           <Route path='/' exact component={Home}/>
           <Route path='/players' component={Players}/>
           <Route path='/teams' component={Teams}/>
+          <Route path='/:teamId' exact component={TeamPage}/>
           <Route render={() => <h1 className='text-center'>404</h1>}/>
         </Switch>
       </div>
       </Router>
   );
-}
+}  
 
 export default App;
 
@@ -40,3 +42,14 @@ export default App;
       If we are not at '/' , /players' or  /teams' , then that means this route  ( <Route render={() => <h1>404</h1>}/>)  is gonna match because it doesn't have a path prop.
       It's then gonna invoke the render method, which is gonna give us this UI which just says 404.
   */
+
+
+
+/**
+  If we put <Route path='/:teamId' exact component={TeamPage}/> on the top, then if we go to /players and /team, it renders the TeamPage Component because all we are matching is /anything.
+  So it thinks players is a teamId & also thinks team is a teamId.
+  So we can fix this by moving this route to the bottom of our switch component. (ambiguous matches)
+  So if players doesn't match and teams doesn't match but there is /something or the current location is '/anything',
+  then this path is gonna match which we will then get the TeamPage component.
+  And if neither of those or none of those matches, then we will get our 404 page.
+ */

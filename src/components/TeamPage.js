@@ -5,7 +5,7 @@ import TeamLogo from './TeamLogo'
 import Team from  './Team'
 import slug from 'slug'
 import { teams } from '../dummy-data'
-
+import Loading from './Loading'
 export default class TeamPage extends React.Component {
 
     state = {
@@ -44,7 +44,7 @@ export default class TeamPage extends React.Component {
             <div>
                 <Team id={teamId}>
                     {(team) => team === null
-                        ? 'LOADING'
+                        ? <Loading/>
                         : <div className='panel'>
                             <TeamLogo id={teamId} />
                             <h1 className='medium-header'>{team.name}</h1>

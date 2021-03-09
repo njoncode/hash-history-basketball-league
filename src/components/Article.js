@@ -51,7 +51,7 @@ export default class Article extends Component {
   When the component mounts, we want to invoke getArticle passing it the teamID as well as the articleId.
   But we also want to call getArticle when the component receives new props because component is not gonna remount again.
   but it's gonna be receiving new props specifically a new articleId or a new teamId perhaps.
- 
+  
   
 *           componentWillReceiveProps (nextProps) {
                 if (this.props.articleId !== nextProps.articleId) {

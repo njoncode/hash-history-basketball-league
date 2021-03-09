@@ -2,6 +2,7 @@ import React from 'react'
 import { Route }  from 'react-router-dom'
 import Sidebar from './Sidebar'
 import { getTeamsArticles } from '../api'
+import Article from './Article'
 
 export default class Articles extends React.Component {
     state = {
@@ -34,16 +35,34 @@ export default class Articles extends React.Component {
                     list={teamArticles}
                     {...this.props}
                 />
+
+                <Route path={`${url}/:articleId`} render={({ match }) => (
+                    <Article articleId={match.params.articleId} teamId={teamId}>
+                        {(article) => !article ? <h1>LOADING</h1> : (
+                            <div className='panel'>
+                                <article className='article' key={article.id}>
+                                    <h1 className='header'>{article.title}</h1>
+                                    <p>{article.body}</p>
+                                </article>
+                            </div>
+                        )}
+                    </Article>
+                )}
+                />
             </div>
         )
     }
 }
-        
+
+
+
 
 /**
- * Now that we have the component which is gonna be rendered when the apps location matches '/teamId/articles/articleId' , 
-   we wanna go ahead and build the route that will render it.
+
+ Now that we have the component which is gonna be rendered when the apps location matches '/teamId/articles/articleId' , 
+ we wanna go ahead and build the route that will render it.
  
-   In App.js
+   In App.js:
              <Route path='/:teamId/articles' component={Articles}/>
+
  */

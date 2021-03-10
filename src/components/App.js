@@ -1,13 +1,57 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import Home from './Home'
-import Players from './Players'
-import Teams from './Teams'
 import Navbar from './Navbar'
-import TeamPage from './TeamPage'
-import Articles from './Articles'
+import Loading from './Loading'
 
-function App() {
+import DynamicImport from './DynamicImport'
+
+const Home = (props) => (
+  <DynamicImport load={() => import('./Home')}>
+    {(Component) => Component === null 
+      ? <Loading/>
+      : <Component {...props} />  
+    }
+  </DynamicImport>
+)
+
+const Players = (props) => (
+  <DynamicImport load={() => import('./Players')}>
+    {(Component) => Component === null 
+      ? <Loading/>
+      : <Component {...props} />  
+    }
+  </DynamicImport>
+)
+
+const Teams = (props) => (
+  <DynamicImport load={() => import('./Teams')}>
+    {(Component) => Component === null 
+      ? <Loading/>
+      : <Component {...props} />  
+    }
+  </DynamicImport>
+)
+
+const TeamPage = (props) => (
+  <DynamicImport load={() => import('./TeamPage')}>
+    {(Component) => Component === null 
+      ? <Loading/>
+      : <Component {...props} />  
+    }
+  </DynamicImport>
+)
+
+const Articles = (props) => (
+  <DynamicImport load={() => import('./Articles')}>
+    {(Component) => Component === null 
+      ? <Loading/>
+      : <Component {...props} />  
+    }
+  </DynamicImport>
+) 
+
+class App extends React.Component {
+  render () {
   return (
     <Router>
       <div>
@@ -25,6 +69,7 @@ function App() {
       </Router>
   );
 }  
+}
 
 export default App;
 
@@ -55,3 +100,12 @@ export default App;
   then this path is gonna match which we will then get the TeamPage component.
   And if neither of those or none of those matches, then we will get our 404 page.
  */
+
+
+
+  /**
+   *   DynamicImport
+   * Instead of this being import stativally, we are gonna use DynamicImport
+   
+    
+   */

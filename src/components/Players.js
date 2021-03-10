@@ -5,6 +5,10 @@ import { getPlayers } from '../api';
 import {parse} from 'query-string'
 import slug from 'slug'
 // import { players } from '../dummy-data';
+import {
+    TransitionGroup,
+    CSSTransition
+    } from 'react-transition-group'
 
 export default function Players (props) {
 
@@ -69,7 +73,9 @@ export default function Players (props) {
         const {name, position, teamId, number, avatar, apg, ppg, rpg, spg} = players.find((player) => slug(player.name) === match.params.playerId)
 
         return (
-            <div className='panel'>
+            <TransitionGroup className='panel'>
+                <CSSTransition key={location.key} timeout={250} classNames='fade'>
+                <div className='panel'>
                 <img className='avatar' src={`${avatar}`} alt={`${name}'s avatar`} />
                 <h1 className='medium-header'>{name}</h1>
                 <h3 className='header'>#{number}</h3>
@@ -92,6 +98,8 @@ export default function Players (props) {
                         </ul>
                 </div>
             </div>
+                </CSSTransition>
+            </TransitionGroup>
         )
         }}
         />
@@ -127,5 +135,43 @@ export default function Players (props) {
           {teamId[0].toUpperCase() + teamId.slice(1)}
     We are capitalizing the team.
     That will take the first letter, capitalize it & then add on the rest of the letters.
+
+ */
+
+
+/**
+ *          React TransitionGroup
+ 
+ * We use React TransitionGroup to instead of just immediately showing one player over the other player, what if we slowly faded the new player in using animations.
+   Inside of our route (what we want to be animating is the actual panel itself, the actually player coming in now)
+   we will wrap this inside of a TransitionGroup.
+   
+* Three are three different things that we need to pass to CSS Transition:
+  We need to pass it a key, so that TransitionGroup can effectivly know which items have left & which items have joined the brand new list or in this case it's children.
+  We will use location.key. We already have access to location because we are already inside or this component is being rendered by React Router.
+  So we have access to location  (const { match, location } = props)  from this.props.
+
+  We will add a timeout which is basically how slow or fast we want the animation to go (we will say 250ms).
+  
+  And then we will add a className which is gonna be applied to both the entering childrean as well as the  children leaving based on their status whether they are leaving or entering.
+
+* Then inside of our index.css file, we add the styles.
+
+  What CSSTransition does is it takes the information it got from TransitionGroup, specifically if certain children are entering, leaving, or staying the same, and it applies a pair of class names to them during the ‘appear’, ‘enter’, and ‘exit’ stages of the transition based on their status. What this allows you to do is, based on those class names, have CSS in your app which will select the same class names that CSSTransition is applying and add some styles to those elements. For example, if we told CSSTransition to apply a fade class, our CSS might look like this
+
+    .fade-enter {  opacity: 0;  z-index: 1;}
+    
+    fade-enter.fade-enter-active {  opacity: 1;  transition: opacity 250ms ease-in;}
+
+    .fade-exit {
+        display: none
+    }
+
+    display: none
+    If an item is exiting, which it will when we click on a new user, & the old user is gonna be exiting, 
+    then we just wanna go ahead and hide that because we don't wann show both the old user & the new user at the same time.
+    Instead we want to fade the new user in from 0 to 1 for the opacity over 250ms & we wanna go ahead & just hide the old user.
+
+    Note:  classNames='fade' not className
 
  */
